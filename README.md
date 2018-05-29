@@ -1,5 +1,17 @@
 # JSCHIP-8 Emulator
 
+## Release
+
+如果只是想玩一玩游戏，请直接下载二进制文件：
+
+Directly download the binaries if you are just playing around:
+
+[JSCHIP-8 Releases](https://github.com/ssine/JSCHIP-8/releases)
+
+执行 `run.bat` 或 `electron/jschip8.exe` 以运行。
+
+run `run.bat` or `electron/jschip-8.exe`.
+
 ## 安装说明
 
 首先安装 Nodejs + npm
