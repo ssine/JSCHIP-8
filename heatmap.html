@@ -1,0 +1,131 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title id="title">Runtime Code Heatmap</title>
+  <style>
+    body {
+      background-color: ghostwhite;
+    }
+    p {
+      height: 15px;
+      -webkit-margin-before:0px;
+      -webkit-margin-after:0px;
+      font-family: Consolas, Courier, monospace;
+      margin-left: 20px;
+    }
+    #code-container {
+      background-color: ghostwhite;
+      width: 300px;
+      color: darkblue;
+      text-align: left;
+    }
+    #center-div {
+      background-color: lightgray;
+      width: 300px;
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    #minimap {
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
+  </style>
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+  <script src="src/js/jquery-3.3.1.js"></script>
+  <script src="src/js/heatmap.js"></script>
+  <script src="src/js/html2canvas.js"></script>
+</head>
+<body onresize="resizeMinimap();">
+  <div id="center-div">
+    <div id="code-container">
+    </div>
+  </div>
+</body>
+<script>
+st = nodeRequire('./vm/static');
+ipcRenderer = nodeRequire('electron').ipcRenderer;
+remote = nodeRequire('electron').remote;
+ipcRenderer.send('give-heat-id', remote.getCurrentWindow().id);
+var lineHeight = remote.getGlobal('sharedObject').lineHeight;
+var lineLength = remote.getGlobal('sharedObject').lineLength;
+var lineIndent = remote.getGlobal('sharedObject').lineIndent;
+var dotSpace = remote.getGlobal('sharedObject').dotSpace;
+var memlst = remote.getGlobal('sharedObject').memory;
+
+for(var line = 256; line < 1348; line++) {
+  $("#code-container").append("<p>" + memlst[line] + "</p>")
+}
+
+
+// process = nodeRequire('process');
+// console.log(process.pid);
+  // minimal heatmap instance configuration
+var heatmapInstance = h337.create({
+  // only container is required, the rest will be defaults
+  container: document.getElementById('code-container'),
+  maxOpacity: 0.5,
+  radius: lineHeight+2
+});
+
+var data = remote.getGlobal('sharedObject').heatData;
+// if you have a set of datapoints always use setData instead of addData
+// for data initialization
+// console.log(data);
+heatmapInstance.setData(data);
+// console.log(remote.getGlobal('sharedObject').executedInstruction)
+// console.log('emmmm');
+ipcRenderer.on('give-pc', (event, pc) => {
+  // console.log('data:', heatmapInstance.getData({x:j, y:(pc/2 + 0.5) * lineHeight})+1);
+  var dataList = [];
+  for(var j = 0; j <= lineLength; j += dotSpace) {
+    dataList.push({
+      x: j,
+      y: (pc/2 + 0.5 - 256) * lineHeight,
+      value: heatmapInstance.getData({x:j, y:(pc/2 + 0.5) * lineHeight})+1
+    })
+  }
+  // heatmapInstance.addData(dataList);
+})
+
+html2canvas(document.getElementById("code-container")).then(canvas => {
+  canvas.setAttribute('id', 'minimap');
+  document.body.appendChild(canvas);
+
+  //获取画布的宽和高
+  var width=308;
+  var height=10080;
+
+  //获取画布的图像信息,一个副本
+  var content=canvas.getContext("2d");
+  var data=content.getImageData(0,0,width,height)
+
+  //重新设置画布的大小
+  width=80;
+  height=document.body.clientHeight;
+  canvas.style.width = width;
+  canvas.style.height = height;
+  // // canvas.setAttribute("height",height)
+  // console.log(canvas.getAttribute("width"))
+  // console.log(canvas.getAttribute("height"))
+  //将获得的图像副本,重新绘制到画布,完成画布的大小改变
+  content.putImageData(data,0,0)
+
+});
+
+function resizeMinimap() {
+  var canvas = document.getElementById('minimap');
+  canvas.style.height = document.body.clientHeight;
+}
+
+</script>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title id="title">CHIP-8 Emulator by LSY</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link rel="stylesheet" type="text/css" href="src/dist/semantic.css">
+    <!-- <link rel="stylesheet" type="text/css" href="src/css/photon.css"> -->
+    <link rel="stylesheet" type="text/css" href="src/css/style.css">
+    <script src="src/js/jquery-3.3.1.js"></script>
+    <script src="src/js/jscolor.js"></script>
+    <script src="src/dist/semantic.js"></script>
+  </head>
+  <body class="body">
+    <div class='pane-group'>
+      
+      <div class='pane' style="width:640px;">
+        <canvas height="320px" width="640px" id="Ch8Screen"></canvas>
+
+        <hr/>
+
+
+        <!-- 流程控制部分 -->
+        <center>
+        <div class="ui buttons">
+        <div class="ui primary small button" tabindex="0" onclick="renderer.loadROM();">
+          <i class="folder open icon"></i>
+          <span>加载ROM</span>
+        </div>
+        <div class="ui primary small button" tabindex="0" onclick="renderer.startGame();">
+          <i class="play icon"></i>
+          <span>开始游戏</span>
+        </div>
+        <div class="ui primary small button" tabindex="0" onclick="renderer.pauseGame();">
+          <i class="pause icon"></i>
+          <span>暂停游戏</span>
+        </div>
+        <div class="ui primary small button" tabindex="0" onclick="renderer.resumeGame();">
+          <i class="play icon"></i>
+          <span>回复游戏</span>
+        </div>
+        <div class="ui primary small button" tabindex="0" onclick="renderer.resetGame();">
+          <i class="undo icon"></i>
+          <span>机器复位</span>
+        </div>
+
+      </div>
+      </center>
+
+      <center>
+      <button
+        class="jscolor {onFineChange:'updateFore(this)',valueElement:'null',value:'0ff'}"
+        style="border:0px;height:35px;">
+        前景
+      </button>
+      <button
+        class="jscolor {onFineChange:'updateBack(this)',valueElement:'null',value:'000'}"
+        style="border:0px;height:35px;">
+        背景
+      </button>
+
+      <!-- <div class="ui buttons" style="margin-top:5px">
+        <div class="ui teal small button" onclick="renderer.changeSpeed(0.5);">
+          0.5x
+        </div>
+        <div class="ui teal small button" onclick="renderer.changeSpeed(1);">
+          1x
+        </div>
+        <div class="ui teal small button" onclick="renderer.changeSpeed(2);">
+          2x
+        </div>
+        <div class="ui teal small button" onclick="renderer.changeSpeed(5);">
+          5x
+        </div>
+      </div> -->
+
+      <div class="ui blue floating labeled icon dropdown button">
+        <i class="clock outline icon"></i>
+        <span class="text">变速</span>
+        <div class="menu">
+          <div class="item" onclick="renderer.changeSpeed(0.1);">
+            0.5s/ins
+          </div>
+          <div class="item" onclick="renderer.changeSpeed(0.5);">
+            0.5x
+          </div>
+          <div class="item" onclick="renderer.changeSpeed(1);">
+            1x
+          </div>
+          <div class="item" onclick="renderer.changeSpeed(2);">
+            2x
+          </div>
+          <div class="item" onclick="renderer.changeSpeed(5);">
+            5x
+          </div>
+        </div>
+      </div>
+
+      <div class="ui buttons">
+        <div class="ui primary small button" tabindex="0" onclick="renderer.openHelp();">
+          <i class="question circle icon"></i>
+          <span>帮助</span>
+        </div>
+      </div>
+
+      <div class="ui buttons">
+        <div class="ui primary small button" tabindex="0" onclick="renderer.openDebugger();">
+          <i class="bug icon"></i>
+          <span>调试工具</span>
+        </div>
+      </div>
+
+      <div class="ui buttons">
+        <div class="ui primary small button" tabindex="0" onclick="renderer.openHeatmap();">
+          <i class="fire icon"></i>
+          <span>代码热区</span>
+        </div>
+      </div>
+
+      <!-- <div class="ui buttons">
+        <div class="ui primary small button" tabindex="0" onclick="renderer.saveStatic();">
+          <i class="fire icon"></i>
+          <span>保存数据</span>
+        </div>
+      </div> -->
+      </center>
+
+
+
+
+      </div>
+
+      <div id="dbpane" class="pane" style="display:none;width:330px;border-left: 1px solid #00bfff;">
+        <div>
+
+          <!-- 内部状态显示 -->
+          <div id="reg-list" class="ui large horizontal list">
+            <div class="content"></div>
+          </div>
+          
+          <div id="romview" class="codeview" style="float:left;width:270px;">
+          </div>
+          <div id="stackview" class="codeview" style="width:50px">
+          </div>
+          <span id="pcview" style="font-family : Consolas, Courier, monospace;font-size: 16px; color:aqua;"></span>
+          <hr/>
+          <center>
+            <button class="ui secondary small button" onclick="renderer.pauseGame();">暂停</button>
+            <button class="ui secondary small button" onclick="renderer.resumeGame();">继续</button>
+            <button class="ui secondary small button" onclick="renderer.emulateStep();">单步</button>
+            <button class="ui secondary small button" onclick="renderer.followPC();">跟随PC</button>
+          </center>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </body>
+
+  <script>
+    var renderer = nodeRequire('./renderer.js');
+    var process = nodeRequire('process');
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.ui.floating.labeled.icon.dropdown.button').dropdown();
+
+      // 填充寄存器表
+      function addRegContent(str) {
+        $("#reg-list").append($("<div></div>").append(
+          $("<div></div>").text(str),
+          ($("<div class='content'></div>").append($("<div id='" + str + "' class='header'></div>").text("0x00")))
+        ).attr("class", "item"));
+      }
+      for(var i = 0; i < 16; i++) {
+        $("#reg-list").append($("<div></div>").append(
+          $("<div></div>").text("V" + i.toString(16).toUpperCase()),
+          ($("<div class='content'></div>").append(
+            $("<div id=V" + i.toString(16) + " class='header'></div>").text("0x00")
+          ))
+        ).attr("class", "item"));
+      }
+      addRegContent('PC');
+      addRegContent('SP');
+      addRegContent('I');
+      addRegContent('DT');
+      addRegContent('ST');
+      addRegContent('Run');
+
+    });
+    function updateFore(jscolor) {  
+      renderer.changeForegroundColor('#' + jscolor);
+    }  
+    function updateBack(jscolor) {  
+      renderer.changeBackgroundColor('#' + jscolor);
+    }  
+  </script>
+
+</html>

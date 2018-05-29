@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="chip-8-emulator-%E5%B8%AE%E5%8A%A9">CHIP-8 Emulator 帮助</h1>
+<h2 id="%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%BB%8B%E7%BB%8D">模拟器介绍</h2>
+<p>这是个上个世纪的古老游戏机的模拟器，因为简单所以拿来当做虚拟机作业。想看看那时候的游戏是什么样子吗？考古也蛮有意思的:)</p>
+<p>在rom文件夹下有chip8和super chip的rom文件。大部分的rom文件会有一个对应的txt文件说明。</p>
+<p>CHIP-8 在1970年被提出，之后有许多人对其进行扩展，流传最广的是 Super CHIP-8，把分辨率从32*64增加到64*128，并支持滚屏，向下兼容。这个模拟器同样支持 Super CHIP-8 ROM。后者的可玩性相对高一些。</p>
+<p>先加载ROM，再开始游戏，支持暂停与回复，复位按钮可以从头开始（再点一下开始游戏）。浅绿色条可以调整游戏速度，对于SuperChip游戏建议开启2x速度。</p>
+<h2 id="%E6%8C%89%E9%94%AE">按键</h2>
+<p>CHIP-8原机器的输入设备是一块16位按键板，键位是这个样子——</p>
+<center>
+<table>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>D</td>
+</tr>
+<tr>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>E</td>
+</tr>
+<tr>
+<td>A</td>
+<td>0</td>
+<td>B</td>
+<td>F</td>
+</tr>
+</table>
+</center>
+<p>把它映射到现在的键盘上，对应于：</p>
+<center>
+<table>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>W</td>
+<td>E</td>
+<td>R</td>
+</tr>
+<tr>
+<td>A</td>
+<td>S</td>
+<td>D</td>
+<td>F</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>X</td>
+<td>C</td>
+<td>V</td>
+</tr>
+</table>
+</center>
+<p>Generally, 有这样几种操作逻辑：</p>
+<center>
+<table>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>↑</td>
+<td>.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>↓</td>
+<td>.</td>
+</tr>
+<tr>
+<td>←</td>
+<td>→</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+</table>
+</center>
+<hr>
+<center>
+<table>
+<tr>
+<td>.</td>
+<td>↑</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>←</td>
+<td>o</td>
+<td>→</td>
+<td>.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>↓</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+</table>
+</center>
+<hr>
+<p>对双人游戏，</p>
+<center>
+<table>
+<tr>
+<td>↑</td>
+<td>.</td>
+<td>.</td>
+<td>↑</td>
+</tr>
+<tr>
+<td>↓</td>
+<td>.</td>
+<td>.</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+</table>
+</center>
+<p>有些比较明显的格子会直接按位置来，比如15 PUZZLE和井字棋Tic-Tac-Toe。</p>
+<p>还是有很多游戏不遵循以上规则的，看一下rom旁边有没有说明文件，没有的话就摸索一下吧。</p>
+<h2 id="%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7">调试工具</h2>
+<p>调试工具会显示所有寄存器、PC等数值，下方是内存（双字节指令，有反汇编显示）与堆栈，再下面是当前PC指向的指令（在PC指向奇数地址时读这个）。几个控制按钮顾名思义。</p>
+<p>PS：有几个游戏有BUG。。我不觉得是我的错。。或许是ROM不兼容吧</p>
+<p>有问题 / 反馈请联系QQ 963366202。</p>
+<h2 id="%E7%BF%BB%E8%AF%91%EF%BC%88%E6%9C%AA%E5%AE%8C%E6%88%90%E4%B9%9F%E4%B8%8D%E5%87%86%E5%A4%87%E5%AE%8C%E6%88%90%EF%BC%89">翻译（未完成也不准备完成）</h2>
+<p>比较好玩的会在名字前标⭐。。</p>
+<h3 id="chip-8-roms"><strong>CHIP-8 ROMs</strong></h3>
+<h4 id="%E2%AD%90-15-puzzle">⭐ 15 PUZZLE</h4>
+<p>一个谜题，每次可把空格周围的数字往空格移动，按4*4键盘区对应的按键即可。</p>
+<p>初始状态：</p>
+<pre><code class="language-text">1   2   3   4
+5   6   7　 8
+9   10  11  12
+13  14  15
+</code></pre>
+<p>最终状态：</p>
+<pre><code class="language-text">15  14  13  12
+11  10  9   8
+7   6   5   4
+3   2   1
+</code></pre>
+<h4 id="blinky">BLINKY</h4>
+<p>吃豆人。 AS左右，3E上下。 在SuperChip的ROM里有一个“高清”版本。</p>
+<h4 id="blitz">BLITZ</h4>
+<p>emmmmmm飞机炸大楼？飞机每次会下降一点，撞到楼就算输。按W键投弹。</p>
+<h4 id="%E2%AD%90-brix">⭐ BRIX</h4>
+<p>打砖块，QE左右移动。</p>
+<h4 id="connect4">CONNECT4</h4>
+<p>这是个双人游戏，QE左右，W键放置棋子，轮流。先连成4个的获胜（斜着也行）。<strong>没有胜利检测</strong>。</p>
+<h4 id="guess">GUESS</h4>
+<p>想象一个1到63之间的数，如果屏幕上有那个数，按W（否则按其他键），最后电脑会猜出是哪个数。</p>
+<h4 id="%E2%AD%90-hidden">⭐ HIDDEN</h4>
+<p>4*4矩阵的卡片配对记忆游戏。2SQE上下左右，W键翻开卡片。</p>
+<h4 id="%E2%AD%90-invaders">⭐ INVADERS</h4>
+<p>大名鼎鼎的太空入侵者233333</p>
+<p>QE左右移动，W射击。</p>
+<h4 id="kaleid">KALEID</h4>
+<p>没搞清楚怎么玩，貌似是个佛性艺术游戏……</p>
+<h4 id="maze">MAZE</h4>
+<p>随机生成一个迷宫……好看吧</p>
+<h4 id="%E2%AD%90-merlin">⭐ MERLIN</h4>
+<p>记忆光点出现的顺序，之后按照顺序按下对应的按键。对应按键为：QWAS。</p>
+<h4 id="missile">MISSILE</h4>
+<p>按S键射击，打出去的子弹越多，你的移动速度越快，最多12发。</p>
+<h4 id="%E2%AD%90-pong-2">⭐ PONG 2</h4>
+<p>PONG的改进版，玩家1使用1Q，玩家2使用4R。</p>
+<h4 id="tank">TANK</h4>
+<p>QE左右，S2上下（不知为何反过来了），W发射子弹。</p>
+<p>这个像素坦克好经典……想到了坦克大战。</p>
+<h4 id="%E2%AD%90-tetris">⭐ TETRIS</h4>
+<p>俄罗斯方块。WE左右，Q换姿势。</p>
+<h4 id="tictac">TICTAC</h4>
+<p>双人井字棋！键盘左上角3*3对应棋盘上的位置。</p>
+<h4 id="ufo">UFO</h4>
+<p>QWE往三个方向发射导弹射击UFO！</p>
+<h4 id="vbrix">VBRIX</h4>
+<p>竖版打砖块，1Q上下移动，貌似有bug（不怪我我只是个写模拟器的）。</p>
+<h4 id="vers">VERS</h4>
+<p>按键有点反人类……哪位同学知道这游戏啥意思请告诉我orz</p>
+<h4 id="wipeoff">WIPEOFF</h4>
+<p>还是打砖块。QE移动。</p>
+<h3 id="super-chip-8-roms"><strong>Super CHIP-8 ROMs</strong></h3>
+<h4 id="alien-jonas-lindstedt-1993">Alien [Jonas Lindstedt, 1993]</h4>
+<p>太空入侵者。34左右，Z发射子弹。</p>
+<h4 id="%E2%AD%90-blinky-hans-christian-egeberg-1991">⭐ Blinky [Hans Christian Egeberg, 1991]</h4>
+<p>高清吃豆人。AS左右，3E上下。</p>
+<h4 id="%E2%AD%90-car-klaus-von-sengbusch-1994">⭐ Car [Klaus von Sengbusch, 1994]</h4>
+<p>赛车游戏。AS左右。</p>
+<h4 id="field-al-roland-1993">Field! [Al Roland, 1993]</h4>
+<p>AS：右/左。4R：上/下。X：开始游戏。</p>
+
+    </body>
+    </html>
