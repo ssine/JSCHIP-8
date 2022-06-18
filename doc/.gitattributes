@@ -1,0 +1,5 @@
+hot_region.png filter=lfs diff=lfs merge=lfs -text
+softstruc.png filter=lfs diff=lfs merge=lfs -text
+typical_games2.png filter=lfs diff=lfs merge=lfs -text
+typical_games.png filter=lfs diff=lfs merge=lfs -text
+JSCHIP-8_doc.pdf filter=lfs diff=lfs merge=lfs -text
