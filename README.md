@@ -34,6 +34,25 @@ Super CHIP 游戏：
 
 <img alt="struc" src="doc/softstruc.png"/>
 
+游戏运行截图：
+
+<table>
+  <tbody>
+    <tr>
+      <td><img alt="gameplay1" src="doc/gameplay1.png"/></td>
+      <td><img alt="gameplay2" src="doc/gameplay2.png"/></td>
+    </tr>
+    <tr>
+      <td><img alt="gameplay3" src="doc/gameplay3.png"/></td>
+      <td><img alt="gameplay4" src="doc/gameplay4.png"/></td>
+    </tr>
+    <tr>
+      <td><img alt="gameplay5" src="doc/gameplay5.png"/></td>
+      <td><img alt="gameplay6" src="doc/gameplay6.png"/></td>
+    </tr>
+  </tbody>
+</table>
+
 ## 安装说明
 
 首先安装 Nodejs + npm
